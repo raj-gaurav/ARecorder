@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "248315588879",
+    "firebase_url": "https://arecorder-64ad6.firebaseio.com",
+    "project_id": "arecorder-64ad6",
+    "storage_bucket": "arecorder-64ad6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248315588879:android:4c56ca5d5d792e041e4e7a",
+        "android_client_info": {
+          "package_name": "com.example.arecorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248315588879-l0ogponq56kgjc76prnl48hsm1iiak1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arecorder",
+            "certificate_hash": "6d953aedf87d0c679b340a8a13688dee4277b81a"
+          }
+        },
+        {
+          "client_id": "248315588879-k8ro41eob2999gv8miamjc3s04qjg5i7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFmS3HZa7z4Ja0zPpf7_eHy8w3Lmt23l4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248315588879-k8ro41eob2999gv8miamjc3s04qjg5i7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
