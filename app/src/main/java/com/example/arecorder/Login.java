@@ -2,6 +2,7 @@ package com.example.arecorder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -83,7 +84,11 @@ public class Login extends AppCompatActivity {
         }
 
         if(a==1 && b==1)
-            Toast.makeText(getApplicationContext(),"ALL OK!!!!",Toast.LENGTH_SHORT).show();
+        {
+            Intent i=new Intent(getApplicationContext(),Admin.class);
+            startActivity(i);
+            finish();
+        }
     }
 
 
