@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class TeacherActivity extends AppCompatActivity {
+public class StudentActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
     ListView lv;
@@ -43,7 +43,7 @@ public class TeacherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher);
+        setContentView(R.layout.activity_student);
 
         init();
 
@@ -54,11 +54,12 @@ public class TeacherActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                customDialogTeacher();
+                customDialogStudent();
             }
         });
 
-        showAllTeacher();
+        showAllStudent();
+
     }
 
     public void init(){
@@ -66,24 +67,27 @@ public class TeacherActivity extends AppCompatActivity {
         lv=findViewById(R.id.lv);
     }
 
-    public void customDialogTeacher(){
-        AlertDialog.Builder myDialog= new AlertDialog.Builder(TeacherActivity.this);
+    public void customDialogStudent(){
+        AlertDialog.Builder myDialog= new AlertDialog.Builder(StudentActivity.this);
 
-        LayoutInflater inflater=LayoutInflater.from(TeacherActivity.this);
-        View add_teacher=inflater.inflate(R.layout.add_teacher,null);
+        LayoutInflater inflater=LayoutInflater.from(StudentActivity.this);
+        View add_student=inflater.inflate(R.layout.add_student,null);
 
         final AlertDialog dialog=myDialog.create();
 
-        dialog.setView(add_teacher);
+        dialog.setView(add_student);
 
-        final TextInputLayout tid=add_teacher.findViewById(R.id.tid);
-        final TextInputLayout name=add_teacher.findViewById(R.id.name);
-        final TextInputLayout department=add_teacher.findViewById(R.id.department);
-        final TextInputLayout email=add_teacher.findViewById(R.id.email);
-        final TextInputLayout password=add_teacher.findViewById(R.id.password);
-        final TextInputLayout joinyear=add_teacher.findViewById(R.id.joinyear);
-        final TextInputLayout contact=add_teacher.findViewById(R.id.contact);
-        final Button btn_ins=add_teacher.findViewById(R.id.btn_ins);
+        final TextInputLayout tid=add_student.findViewById(R.id.tid);
+        final TextInputLayout name=add_student.findViewById(R.id.name);
+        final TextInputLayout department=add_student.findViewById(R.id.department);
+        final TextInputLayout section=add_student.findViewById(R.id.section);
+        final TextInputLayout email=add_student.findViewById(R.id.email);
+        final TextInputLayout password=add_student.findViewById(R.id.password);
+        final TextInputLayout joinyear=add_student.findViewById(R.id.joinyear);
+        final TextInputLayout contact=add_student.findViewById(R.id.contact);
+        final TextInputLayout classroll=add_student.findViewById(R.id.classroll);
+        final TextInputLayout registration=add_student.findViewById(R.id.registration);
+        final Button btn_ins=add_student.findViewById(R.id.btn_ins);
 
 
 
@@ -93,13 +97,16 @@ public class TeacherActivity extends AppCompatActivity {
                 String t_id=tid.getEditText().getText().toString().trim();
                 String t_name=name.getEditText().getText().toString().trim();
                 String t_dep=department.getEditText().getText().toString().trim();
+                String t_sec=section.getEditText().getText().toString().trim();
                 String t_email=email.getEditText().getText().toString().trim();
                 String t_pass=password.getEditText().getText().toString().trim();
                 String t_jyear=joinyear.getEditText().getText().toString().trim();
                 String t_contact=contact.getEditText().getText().toString().trim();
+                String t_croll=classroll.getEditText().getText().toString().trim();
+                String t_registration=registration.getEditText().getText().toString().trim();
 
 
-                mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher");
+                mDatabase= FirebaseDatabase.getInstance().getReference().child("Student").child(t_id);
 
                 /*//Registration start
                 mAuth.createUserWithEmailAndPassword(t_email,t_pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -115,8 +122,8 @@ public class TeacherActivity extends AppCompatActivity {
                 });
                 //Registration end*/
 
-                DataTeacher dataTeacher=new DataTeacher(t_id,t_name,t_dep,"","",t_email,t_pass,t_jyear,t_contact);
-                mDatabase.child(t_id).setValue(dataTeacher);
+                DataStudent dataStudent=new DataStudent(t_id,t_name,t_dep,t_sec,"","",t_email,t_pass,t_jyear,t_contact,t_croll,t_registration);
+                mDatabase.setValue(dataStudent);
 
                 Toast.makeText(getApplicationContext(),"Data Added successfully",Toast.LENGTH_SHORT).show();
 
@@ -137,37 +144,42 @@ public class TeacherActivity extends AppCompatActivity {
 
     }
 
-    public void showAllTeacher(){
+    public void showAllStudent(){
 
         final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
         lv.setAdapter(adapter);
 
-         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                 //update/delete dialog star
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                //update/delete dialog star
 
-                 AlertDialog.Builder myDialog= new AlertDialog.Builder(TeacherActivity.this);
+                AlertDialog.Builder myDialog= new AlertDialog.Builder(StudentActivity.this);
 
-                 LayoutInflater inflater=LayoutInflater.from(TeacherActivity.this);
-                 View update_delete_teacher=inflater.inflate(R.layout.update_delete_teacher,null);
+                LayoutInflater inflater=LayoutInflater.from(StudentActivity.this);
+                View update_delete_student=inflater.inflate(R.layout.update_delete_student,null);
 
-                 final AlertDialog dialog=myDialog.create();
+                final AlertDialog dialog=myDialog.create();
 
-                 dialog.setView(update_delete_teacher);
+                dialog.setView(update_delete_student);
 
-                 final EditText tid=update_delete_teacher.findViewById(R.id.tid);
-                 final EditText tname=update_delete_teacher.findViewById(R.id.name);
-                 final EditText tdepartment=update_delete_teacher.findViewById(R.id.department);
-                 final EditText temail=update_delete_teacher.findViewById(R.id.email);
-                 final EditText tpassword=update_delete_teacher.findViewById(R.id.password);
-                 final EditText tjoinyear=update_delete_teacher.findViewById(R.id.joinyear);
-                 final EditText tcontact=update_delete_teacher.findViewById(R.id.contact);
-                 final Button btn_update=update_delete_teacher.findViewById(R.id.btn_update);
-                 final Button btn_delete=update_delete_teacher.findViewById(R.id.btn_delete);
+                final EditText tid=update_delete_student.findViewById(R.id.tid);
+                final EditText tname=update_delete_student.findViewById(R.id.name);
+                final EditText tdepartment=update_delete_student.findViewById(R.id.department);
+                final EditText tsec=update_delete_student.findViewById(R.id.section);
+                final EditText temail=update_delete_student.findViewById(R.id.email);
+                final EditText tpassword=update_delete_student.findViewById(R.id.password);
+                final EditText tjoinyear=update_delete_student.findViewById(R.id.joinyear);
+                final EditText tcontact=update_delete_student.findViewById(R.id.contact);
+                final EditText tcroll=update_delete_student.findViewById(R.id.croll);
+                final EditText tregistration=update_delete_student.findViewById(R.id.registration);
+
+
+                final Button btn_update=update_delete_student.findViewById(R.id.btn_update);
+                final Button btn_delete=update_delete_student.findViewById(R.id.btn_delete);
 
                 // Toast.makeText(getApplicationContext(), list.get(position),Toast.LENGTH_SHORT).show();
-                dref=FirebaseDatabase.getInstance().getReference().child("Teacher").child(list.get(position));
+                dref=FirebaseDatabase.getInstance().getReference().child("Student").child(list.get(position));
                 dref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -180,21 +192,27 @@ public class TeacherActivity extends AppCompatActivity {
                         else{
                             String name=dataSnapshot.child("name").getValue().toString();
                             String dep=dataSnapshot.child("department").getValue().toString();
+                            String sec=dataSnapshot.child("section").getValue().toString();
                             String email=dataSnapshot.child("email").getValue().toString();
                             String pass=dataSnapshot.child("password").getValue().toString();
                             String jyear=dataSnapshot.child("joinyear").getValue().toString();
                             String contact=dataSnapshot.child("contact").getValue().toString();
+                            String croll=dataSnapshot.child("classroll").getValue().toString();
+                            String registration=dataSnapshot.child("registration").getValue().toString();
+
 
 
 
                             tid.setText(list.get(position));
                             tname.setText(name);
                             tdepartment.setText(dep);
+                            tsec.setText(sec);
                             temail.setText(email);
                             tpassword.setText(pass);
                             tjoinyear.setText(jyear);
                             tcontact.setText(contact);
-
+                            tcroll.setText(croll);
+                            tregistration.setText(registration);
 
                             btn_update.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -203,14 +221,17 @@ public class TeacherActivity extends AppCompatActivity {
                                     String id=tid.getText().toString().trim();
                                     String name=tname.getText().toString().trim();
                                     String dep=tdepartment.getText().toString().trim();
+                                    String sec=tsec.getText().toString().trim();
                                     String email=temail.getText().toString().trim();
                                     String pass=tpassword.getText().toString().trim();
                                     String jyear=tjoinyear.getText().toString().trim();
                                     String con=tcontact.getText().toString().trim();
+                                    String croll=tcroll.getText().toString().trim();
+                                    String registration=tregistration.getText().toString().trim();
 
-                                    mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher").child(id);
-                                    DataTeacher dataTeacher=new DataTeacher(id,name,dep,"","",email,pass,jyear,con);
-                                    mDatabase.setValue(dataTeacher);
+                                    mDatabase= FirebaseDatabase.getInstance().getReference().child("Student").child(id);
+                                    DataStudent dataStudent=new DataStudent(id,name,dep,sec,"","",email,pass,jyear,con,croll,registration);
+                                    mDatabase.setValue(dataStudent);
 
                                     Toast.makeText(getApplicationContext(),"Data updated successfully",Toast.LENGTH_SHORT).show();
 
@@ -225,7 +246,7 @@ public class TeacherActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
 
-                                    mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher");
+                                    mDatabase= FirebaseDatabase.getInstance().getReference().child("Student");
                                     mDatabase.child(list.get(position)).removeValue();
                                     dialog.dismiss();
                                     Toast.makeText(getApplicationContext(),"Data deleted successfully",Toast.LENGTH_SHORT);
@@ -248,12 +269,12 @@ public class TeacherActivity extends AppCompatActivity {
                     }
                 });
 
-                    dialog.show();
-                 // update/delete dialog end
-             }
-         });
+                dialog.show();
+                // update/delete dialog end
+            }
+        });
 
-        mDatabase=FirebaseDatabase.getInstance().getReference().child("Teacher");
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Student");
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -288,4 +309,5 @@ public class TeacherActivity extends AppCompatActivity {
 
 
     }
+
 }

@@ -28,8 +28,8 @@ public class Admin extends AppCompatActivity {
         student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i=new Intent(getApplicationContext(),StudentActivity.class);
-                startActivity(i);*/
+                Intent i=new Intent(getApplicationContext(),StudentActivity.class);
+                startActivity(i);
             }
         });
 
