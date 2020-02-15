@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudentHomePage"
+    android:background="@drawable/bg"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtname"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gaurav Raj"
+        android:layout_toRightOf="@+id/txtname"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration No. :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtregistration"
+        android:layout_below="@+id/txtname"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="16125010040"
+        android:layout_toRightOf="@+id/txtregistration"
+        android:layout_below="@+id/name"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/registration"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Class Roll No. :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtcroll"
+        android:layout_below="@+id/txtregistration"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="162039167"
+        android:layout_toRightOf="@+id/txtcroll"
+        android:layout_below="@+id/registration"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/croll"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Branch :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtbranch"
+        android:layout_below="@+id/txtcroll"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CSE 'A'"
+        android:layout_toRightOf="@+id/txtbranch"
+        android:layout_below="@+id/croll"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/branch"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtemail"
+        android:layout_below="@+id/txtbranch"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rajgauravraj97@gmail.com"
+        android:layout_toRightOf="@+id/txtemail"
+        android:layout_below="@+id/branch"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/email"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact No. :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtcontact"
+        android:layout_below="@+id/txtemail"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8587953804"
+        android:layout_toRightOf="@+id/txtcontact"
+        android:layout_below="@+id/email"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/contact"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student ID :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtsid"
+        android:layout_below="@+id/txtcontact"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SID162039167"
+        android:layout_toRightOf="@+id/txtsid"
+        android:layout_below="@+id/contact"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/sid"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Year :"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/txtyear"
+        android:layout_below="@+id/txtsid"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:layout_toRightOf="@+id/txtyear"
+        android:layout_below="@+id/sid"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:id="@+id/year"
+        />
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000"
+        android:layout_below="@id/year"
+        android:id="@+id/line"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:text="13/02/2020"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#1C3FF5"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_toRightOf="@+id/date"
+        android:text="11:05 PM"
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/time"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#18881F"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_toRightOf="@+id/time"
+        android:text="Wednesday"
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/day"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#1C3FF5"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:text="Period : "
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/txtPeriod"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#01050A"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_toRightOf="@+id/txtPeriod"
+        android:text="8"
+
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/period"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#1C3FF5"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_toRightOf="@+id/period"
+        android:text="CS704A"
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/subject"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#997E13"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_toRightOf="@+id/subject"
+        android:text="TID12039167"
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/tid"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#1C3FF5"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPeriod"
+        android:text="CID : "
+        android:layout_marginLeft="8dp"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/txtcid"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPeriod"
+        android:layout_toRightOf="@+id/txtcid"
+        android:text="CSEA20164"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/cid"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#1C3FF5"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000"
+        android:layout_below="@id/cid"
+        android:id="@+id/line1"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:text="Make Attendance"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:padding="8dp"
+        android:id="@+id/txtatt"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Attendance Key"
+        android:layout_below="@+id/txtatt"
+        android:id="@+id/key"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"
+            android:textSize="19sp"
+            android:textColor="#000"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/key"
+        android:text="SUBMIT"
+        android:textSize="20sp"
+        android:id="@+id/btn_submit"
+        android:background="#3C3CF3"
+        android:textColor="#fff"/>
+
+
+
+
+</RelativeLayout>

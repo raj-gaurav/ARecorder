@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManageClass"></activity>
+        <activity android:name=".ManageRoom"></activity>
+        <activity android:name=".TeacherHomePage" />
+        <activity android:name=".ClassRoutine" />
+        <activity android:name=".YearwiseClass" />
+        <activity android:name=".ManageRoutine" />
+        <activity android:name=".ManageSubject" />
+        <activity android:name=".StudentHomePage" />
+        <activity android:name=".ManageClass" />
         <activity android:name=".StudentActivity" />
         <activity android:name=".TeacherActivity" />
         <activity android:name=".Admin" />

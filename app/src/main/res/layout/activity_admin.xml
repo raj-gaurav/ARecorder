@@ -51,6 +51,14 @@
         android:text="MANAGE CLASSES"
         android:id="@+id/classes"
         android:layout_margin="20dp"/>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/classes"
+        android:padding="20dp"
+        android:text="MANAGE TEACHER ROUTINE"
+        android:id="@+id/room"
+        android:layout_marginLeft="20dp"/>
 
 
 

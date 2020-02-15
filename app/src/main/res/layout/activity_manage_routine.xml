@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ManageRoutine"
+    android:background="@drawable/bg"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1st Year"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="#3B5CF5"
+        android:id="@+id/first"
+        android:layout_marginBottom="5dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2nd Year"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="#3B5CF5"
+        android:id="@+id/second"
+        android:layout_below="@+id/first"
+        android:layout_marginBottom="5dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3rd Year"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="#3B5CF5"
+        android:id="@+id/third"
+        android:layout_below="@+id/second"
+        android:layout_marginBottom="5dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="4th Year"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="#3B5CF5"
+        android:id="@+id/fourth"
+        android:layout_below="@+id/third"
+        android:layout_marginBottom="5dp"
+        />
+
+
+
+
+</RelativeLayout>

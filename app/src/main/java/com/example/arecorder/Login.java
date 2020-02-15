@@ -143,7 +143,9 @@ public class Login extends AppCompatActivity {
                         String email=dataSnapshot.child("email").getValue().toString();
 
                         if(user.equals(username1) && pass.equals(password1)){
-                            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),TeacherHomePage.class);
+                            i.putExtra("tid",user);
+                            startActivity(i);
                         }
                         else{
                             username.setError("Invalid Username");
@@ -190,7 +192,9 @@ public class Login extends AppCompatActivity {
                         String email=dataSnapshot.child("email").getValue().toString();
 
                         if(user.equals(username1) && pass.equals(password1)){
-                            Toast.makeText(getApplicationContext(),email,Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),StudentHomePage.class);
+                            i.putExtra("sid",user);
+                            startActivity(i);
                         }
                         else{
                             username.setError("Invalid Username");

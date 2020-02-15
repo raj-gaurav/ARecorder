@@ -173,7 +173,7 @@ public class TeacherActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                        if(dataSnapshot.equals(null))
+                        if(dataSnapshot.getChildrenCount()==0)
                         {
                             Toast.makeText(getApplicationContext(),"No Data found",Toast.LENGTH_SHORT).show();
                         }

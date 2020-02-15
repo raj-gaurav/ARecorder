@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00f"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="ADD ROOM"
+        android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#fff"
+        android:paddingLeft="140dp"
+        android:id="@+id/txt"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Teacher ID"
+        android:padding="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/txt"
+        android:id="@+id/tid"
+
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Class ID"
+        android:padding="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/tid"
+        android:id="@+id/cid"
+
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Day"
+        android:padding="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/cid"
+        android:id="@+id/day"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Period"
+        android:padding="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/day"
+        android:id="@+id/period"
+
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Subject ID"
+        android:padding="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/period"
+        android:id="@+id/sid"
+
+        />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INSERT"
+        android:background="#00f"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_below="@+id/sid"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_ins"
+        />
+</RelativeLayout>

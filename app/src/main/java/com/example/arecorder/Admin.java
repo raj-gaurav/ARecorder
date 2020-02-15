@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class Admin extends AppCompatActivity {
 
-    Button teacher,student,classes,subject,routine;
+    Button teacher,student,classes,subject,routine,room;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,24 +36,31 @@ public class Admin extends AppCompatActivity {
         classes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i=new Intent(getApplicationContext(),ManageClass.class);
-                startActivity(i);*/
+                Intent i=new Intent(getApplicationContext(),ManageClass.class);
+                startActivity(i);
             }
         });
 
         subject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i=new Intent(getApplicationContext(),ManageSubject.class);
-                startActivity(i);*/
+                Intent i=new Intent(getApplicationContext(),ManageSubject.class);
+                startActivity(i);
             }
         });
 
         routine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i=new Intent(getApplicationContext(),ManageRoutine.class);
-                startActivity(i);*/
+                Intent i=new Intent(getApplicationContext(),ManageRoutine.class);
+                startActivity(i);
+            }
+        });
+        room.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),ManageRoom.class);
+                startActivity(i);
             }
         });
 
@@ -66,6 +73,7 @@ public class Admin extends AppCompatActivity {
         classes=findViewById(R.id.classes);
         subject=findViewById(R.id.subject);
         routine=findViewById(R.id.routine);
+        room=findViewById(R.id.room);
     }
 
 

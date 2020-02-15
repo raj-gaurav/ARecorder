@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD CLASS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="120dp"
+        android:layout_margin="15dp"
+        android:background="#6363F8"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:id="@+id/txt"
+        />
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cid"
+        android:layout_below="@+id/txt"
+        android:padding="15dp"
+        android:hint="class id"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/branch"
+        android:layout_below="@+id/cid"
+        android:padding="15dp"
+        android:hint="Branch"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/section"
+        android:layout_below="@+id/branch"
+        android:padding="15dp"
+        android:hint="section"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/year"
+        android:layout_below="@+id/section"
+        android:padding="15dp"
+        android:hint="Year"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sem"
+        android:layout_below="@+id/year"
+        android:padding="15dp"
+        android:hint="Semester"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"/>
+
+
+
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sem"
+        android:padding="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="28dp"
+
+        android:background="#05921C"
+        android:text="UPDATE"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:id="@+id/btn_update"
+        />
+
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sem"
+        android:padding="10dp"
+        android:layout_margin="15dp"
+        android:background="#D62506"
+        android:text="DELETE"
+        android:layout_toRightOf="@+id/btn_update"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:id="@+id/btn_delete"
+        />
+
+</RelativeLayout>

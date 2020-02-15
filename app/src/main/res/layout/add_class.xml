@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD CLASS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="120dp"
+        android:layout_margin="15dp"
+        android:background="#6363F8"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:id="@+id/txt"
+        />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Branch"
+        android:layout_below="@+id/txt"
+        android:id="@+id/branch"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"
+            android:textSize="19sp"
+            android:textColor="#000"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Section"
+        android:layout_below="@+id/branch"
+        android:id="@+id/section"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"
+            android:textSize="19sp"
+            android:textColor="#000"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Year"
+        android:layout_below="@+id/section"
+        android:id="@+id/year"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"
+            android:textSize="19sp"
+            android:textColor="#000"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/year"
+        android:padding="10dp"
+        android:layout_margin="15dp"
+        android:background="#6363F8"
+        android:text="INSERT"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:id="@+id/btn_ins"
+        />
+
+</RelativeLayout>
