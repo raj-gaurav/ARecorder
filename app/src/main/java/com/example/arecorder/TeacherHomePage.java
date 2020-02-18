@@ -4,31 +4,58 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Random;
 
 public class TeacherHomePage extends AppCompatActivity {
 
-    TextView name,department,jyear,email,contact,tid,date,time,day,period,subid,classid,key;
+    TextView name,department,jyear,email,contact,tid,date,time,day,period,subid,classid,key,lat,lon;
     Button btn_gen;
 
     String t_id,da,ti,d;
-
+    int count=0;
     DatabaseReference mDatabase;
+
+    static TeacherHomePage instance;
+    LocationRequest locationRequest;
+
+    //TextView txt_location;
+
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    public static TeacherHomePage getInstance(){
+        return instance;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -37,10 +64,36 @@ public class TeacherHomePage extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_home_page);
 
         init();
+        btn_gen.setEnabled(false);
         t_id=getIntent().getExtras().getString("tid");
+
+
+        instance=this;
         section1();
         section2();
         section3();
+
+        Dexter.withActivity(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        updateLocation();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getApplicationContext(),"You must accept this location",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                }).check();
+
+
+
+
     }
 
     public void init(){
@@ -58,6 +111,8 @@ public class TeacherHomePage extends AppCompatActivity {
         classid=findViewById(R.id.classid);
         key=findViewById(R.id.key);
         btn_gen=findViewById(R.id.btn_gen);
+        lat=findViewById(R.id.lat);
+        lon=findViewById(R.id.lon);
     }
     public void section1(){
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
@@ -101,19 +156,19 @@ public class TeacherHomePage extends AppCompatActivity {
         time.setText(ti);
 
         if(dayOfWeek==1)
-            d="SUNDAY";
+            d="Sunday";
         else if(dayOfWeek==2)
-            d="MONDAY";
+            d="Monday";
         else if(dayOfWeek==3)
-            d="TUESDAY";
+            d="Tuesday";
         else if(dayOfWeek==4)
-            d="WEDNESDAY";
+            d="Wednesday";
         else if(dayOfWeek==5)
-            d="THURSDAY";
+            d="Thursday";
         else if(dayOfWeek==6)
-            d="FRIDAY";
+            d="Friday";
         else if(dayOfWeek==7)
-            d="SATURDAY";
+            d="Saturday";
 
 
         day.setText(d);
@@ -171,36 +226,163 @@ public class TeacherHomePage extends AppCompatActivity {
         {
             final String pe=String.valueOf(p);
             period.setText(pe);
-            mDatabase= FirebaseDatabase.getInstance().getReference().child("TeacherRoutine").child(t_id).child(d).child(pe);
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String s=dataSnapshot.child("sid").getValue().toString();
-                    String c=dataSnapshot.child("cid").getValue().toString();
-                    subid.setText(s);
-                    classid.setText(c);
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            if(d.equals("SUNDAY")){
+                period.setText("-");
+                subid.setText("-");
+                classid.setText("-");
+            }
+            else
+            {
+                mDatabase= FirebaseDatabase.getInstance().getReference().child("TeacherRoutine").child(t_id).child(d).child(pe);
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String s=dataSnapshot.child("sid").getValue(String.class);
+                        String c=dataSnapshot.child("cid").getValue(String.class);
+                        /*long z=dataSnapshot.getChildrenCount();*/
+                        //Toast.makeText(getApplicationContext(),s+" "+c,Toast.LENGTH_SHORT).show();
+                        subid.setText(s);
+                        classid.setText(c);
+                        //Toast.makeText(getApplicationContext())
+                        btn_gen.setEnabled(true);
+                    }
 
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            btn_gen.setEnabled(true);
+                    }
+                });
+
+                    if(count!=0){
+                        btn_gen.setEnabled(false);
+                    }
+                    else{
+                        btn_gen.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int rand=(int) (1015620.0*Math.random());
+                                final String k=subid.getText().toString().trim()+classid.getText().toString().trim()+String.valueOf(rand);
+                                key.setText(k);
+                                mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid.getText().toString().trim());
+                                mDatabase.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        String cid=dataSnapshot.child("cid").getValue().toString();
+                                        String subid=dataSnapshot.child("subid").getValue().toString();
+                                        String subject=dataSnapshot.child("subject").getValue().toString();
+                                        String tclass=dataSnapshot.child("tclass").getValue().toString();
+                                        String tid=dataSnapshot.child("tid").getValue().toString();
+
+                                        incrementTotalClass(cid,subid,subject,tclass,tid,k);
+                                        count++;
+                                        btn_gen.setEnabled(false);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+
+
+
+
+
+            }
+
+
+
 
         }
         else if(p==9){
             period.setText("LUNCH");
             subid.setText("-");
             classid.setText("-");
-            btn_gen.setEnabled(false);
+
         }
         else{
             period.setText("-");
             subid.setText("-");
             classid.setText("-");
-            btn_gen.setEnabled(false);
+
         }
     }
+
+    public void incrementTotalClass(String cid, String subid,String subject,String tclass,String tid,String k){
+
+        int z=0;
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
+        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,String.valueOf(z),k);
+        mDatabase.setValue(dataSubject);
+    }
+
+    public void updateLocation(){
+
+        buildLocationRequest();
+
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,getPendingIntent());
+
+    }
+
+    private PendingIntent getPendingIntent() {
+
+        Intent intent=new Intent(TeacherHomePage.this,MyLocationService.class);
+        intent.setAction(MyLocationService.ACTION_PROCESS_UPDATE);
+
+        return PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void buildLocationRequest() {
+        locationRequest=new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(10f);
+    }
+
+    public void updateTextView(final String latitude,final String longitude){
+        TeacherHomePage.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                /*txt_location.setText(value);*/
+                lat.setText(latitude);
+                lon.setText(longitude);
+                mDatabase=FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String name=dataSnapshot.child("name").getValue().toString();
+                        String dep=dataSnapshot.child("department").getValue().toString();
+                        String email=dataSnapshot.child("email").getValue().toString();
+                        String pass=dataSnapshot.child("password").getValue().toString();
+                        String jyear=dataSnapshot.child("joinyear").getValue().toString();
+                        String contact=dataSnapshot.child("contact").getValue().toString();
+
+
+                        mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
+                        DataTeacher dataTeacher=new DataTeacher(t_id,name,dep,latitude,longitude,email,pass,jyear,contact);
+                        mDatabase.setValue(dataTeacher);
+
+                        //Toast.makeText(getApplicationContext(),"<---- till here ---->",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+        });
+    }
+
+
 }

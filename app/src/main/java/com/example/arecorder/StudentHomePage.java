@@ -4,24 +4,40 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -33,16 +49,24 @@ public class StudentHomePage extends AppCompatActivity {
     TextInputLayout key;
     Button btn_submit;
 
+    TextInputEditText edtxt_key;
+
     String sid_user,dt,ti,d, classid;
 
     DatabaseReference mDatabase,dref,dref1;
 
-    /*public StudentHomePage(){
+    static StudentHomePage instance;
+    LocationRequest locationRequest;
 
+    //TextView txt_location;
+
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    public static StudentHomePage getInstance(){
+        return instance;
     }
-    public StudentHomePage(String id){
-        this.classid=id;
-    }*/
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -53,12 +77,14 @@ public class StudentHomePage extends AppCompatActivity {
         init();
 
         sid_user=getIntent().getExtras().getString("sid");
+        btn_submit.setEnabled(false);
 
+        instance=this;
         putData();
         //Toast.makeText(getApplicationContext()," "+d+" "+classid,Toast.LENGTH_SHORT).show();
         //section 2 start
 
-            section2();
+        section2();
 
         //section 2 end
 
@@ -70,7 +96,30 @@ public class StudentHomePage extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         //section 3 end
+
+        Dexter.withActivity(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        updateLocation();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getApplicationContext(),"You must accept this location",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    }
+                }).check();
+
+
+
+
 
     }
 
@@ -91,6 +140,7 @@ public class StudentHomePage extends AppCompatActivity {
         cid=findViewById(R.id.cid);
         key=findViewById(R.id.key);
         btn_submit=findViewById(R.id.btn_submit);
+        edtxt_key=findViewById(R.id.edtxt_key);
 
 
 
@@ -115,6 +165,8 @@ public class StudentHomePage extends AppCompatActivity {
                String y=String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(jyear));
                String syear=String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(y));
                classid=dep+sec+syear+y;
+
+
 
 
 
@@ -224,46 +276,40 @@ public class StudentHomePage extends AppCompatActivity {
         else
             p=10;
 
-       String c_id=  cid.getText().toString().trim();
+       final String c_id=  cid.getText().toString().trim();
 
 
            // Toast.makeText(getApplicationContext(),d+" "+p+" "+c_id,Toast.LENGTH_SHORT).show();
         if(p>=1 && p<=8)
         {
             final String pe=String.valueOf(p);
-            btn_submit.setEnabled(false);
             period.setText(pe);
-            mDatabase= FirebaseDatabase.getInstance().getReference().child("Routine").child(c_id).child(d).child(pe);
-            final String[] subid = {"null"};
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    subid[0] =dataSnapshot.child("subid").getValue().toString();
-                    subject.setText(subid[0]);
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            if(d.equals("SUNDAY") ){
+                period.setText("-");
+                subject.setText("-");
+                tid.setText("-");
+            }
+            else{
+                mDatabase= FirebaseDatabase.getInstance().getReference().child("Routine").child(c_id).child(d).child(pe);
 
-                }
-            });
-                /*String t_s=subject.getText().toString().trim();
-            dref=FirebaseDatabase.getInstance().getReference().child("Subject").child(t_s);
-            dref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String teacherid=dataSnapshot.child("tid").getValue(String.class);
-                    //tid.setText(teacherid);
-                    long i=  dataSnapshot.getChildrenCount();
-                    Toast.makeText(getApplicationContext(),"i= "+i,Toast.LENGTH_SHORT).show();
-                }
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String subid =dataSnapshot.child("subid").getValue().toString();
+                        subject.setText(subid);
+                        setTeacherId(subid,c_id);
+                    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });*/
-                tid.setText("");
+                    }
+                });
+
+            }
+
+
         }
         else if(p==9)
         {
@@ -286,4 +332,253 @@ public class StudentHomePage extends AppCompatActivity {
 
 
     }
+
+    public void setTeacherId(final String t_s,final String c_id){
+
+
+            dref=FirebaseDatabase.getInstance().getReference().child("Subject").child(t_s);
+            dref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String teacherid=dataSnapshot.child("tid").getValue(String.class);
+                    tid.setText(teacherid);
+                    getStudentLocation(teacherid,t_s,c_id);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+    }
+
+    public void updateLocation(){
+
+        buildLocationRequest();
+
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,getPendingIntent());
+
+    }
+
+    private PendingIntent getPendingIntent() {
+
+        Intent intent=new Intent(StudentHomePage.this,StudentLocationService.class);
+        intent.setAction(StudentLocationService.ACTION_PROCESS_UPDATE);
+
+        return PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void buildLocationRequest() {
+        locationRequest=new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(10f);
+    }
+
+    public void updateTextView(final String latitude,final String longitude){
+        StudentHomePage.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                /*txt_location.setText(value);*/
+
+                mDatabase=FirebaseDatabase.getInstance().getReference().child("Student").child(sid_user);
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String name=dataSnapshot.child("name").getValue().toString();
+                        String dep=dataSnapshot.child("department").getValue().toString();
+                        String sec=dataSnapshot.child("section").getValue().toString();
+                        String email=dataSnapshot.child("email").getValue().toString();
+                        String pass=dataSnapshot.child("password").getValue().toString();
+                        String jyear=dataSnapshot.child("joinyear").getValue().toString();
+                        String contact=dataSnapshot.child("contact").getValue().toString();
+                        String croll=dataSnapshot.child("classroll").getValue().toString();
+                        String registration=dataSnapshot.child("registration").getValue().toString();
+
+
+                        mDatabase= FirebaseDatabase.getInstance().getReference().child("Student").child(sid_user);
+                        DataStudent dataStudent=new DataStudent(sid_user,name,dep,sec,latitude,longitude,email,pass,jyear,contact,croll,registration);
+                        mDatabase.setValue(dataStudent);
+
+                        //Toast.makeText(getApplicationContext(),"Data updated successfully",Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(getApplicationContext(),"<---- till here ---->",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+        });
+    }
+
+    public void getStudentLocation(final String t_id,final String t_s,final String c_id){
+
+        final String s_id=sid_user;
+
+        //Toast.makeText(getApplicationContext(),t_id+" "+s_id,Toast.LENGTH_SHORT).show();
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Student").child(s_id);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 String s_lat=dataSnapshot.child("latitude").getValue().toString();
+                 String s_lon=dataSnapshot.child("longitude").getValue().toString();
+                 getTeacherLocation(s_lat,s_lon,t_id,t_s,c_id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    public void getTeacherLocation(final String s_lat, final String s_lon,final String t_id,final String t_s,final String c_id){
+        dref=FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
+        dref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String t_lat=dataSnapshot.child("latitude").getValue().toString();
+                String t_lon=dataSnapshot.child("longitude").getValue().toString();
+                calculateDistance(s_lat,s_lon,t_lat,t_lon,t_s,c_id);
+                //
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void calculateDistance(String s_lat,String s_lon,String t_lat,String t_lon,final String t_s,final String c_id){
+        //
+
+        double stu_lat,stu_lon,tea_lat,tea_lon;
+        tea_lat=Double.parseDouble(t_lat);
+        tea_lon=Double.parseDouble(t_lon);
+        stu_lat=Double.parseDouble(s_lat);
+        stu_lon=Double.parseDouble(s_lon);
+        float[] results = new float[1];
+        Location.distanceBetween(tea_lat, tea_lon,
+                stu_lat, stu_lon, results);
+        float distance = results[0];
+
+        //Toast.makeText(getApplicationContext(),String.valueOf(distance),Toast.LENGTH_SHORT ).show();
+        float fix_dis= (float) 3.0;
+
+        if(distance<=fix_dis){
+            btn_submit.setEnabled(true);
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validateKey(t_s,c_id);
+                }
+            });
+        }
+
+
+    }
+
+
+
+    public void validateKey(final String subid, final String classid){
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key1=dataSnapshot.child("key").getValue().toString();
+                if(edtxt_key.getText().toString().trim().equals(key1)){
+                    makeStudentAttendance(subid,classid);
+                }
+                else{
+                    key.setError("Invalid Key");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void makeStudentAttendance(final String subid, final String classid){
+        LocalDate currentdate = LocalDate.now();
+        final Month currentMonth = currentdate.getMonth();
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Attendance").child(classid).child(sid_user).child(String.valueOf(currentMonth)).child(subid);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int i= (int) dataSnapshot.getChildrenCount();
+                if(i==0){
+                    getTeacherID(classid,String.valueOf(currentMonth),"0",sid_user,subid,"0");
+                }
+                else{
+                    String c_id=dataSnapshot.child("c_id").getValue().toString();
+                    String month=dataSnapshot.child("month").getValue().toString();
+                    String present=dataSnapshot.child("present").getValue().toString();
+                    String sid=dataSnapshot.child("sid").getValue().toString();
+                    String sub_id=dataSnapshot.child("subid").getValue().toString();
+                    String tid=dataSnapshot.child("tid").getValue().toString();
+                    String total=dataSnapshot.child("total").getValue().toString();
+
+
+                    incrementAttendance(c_id,month,present,sid,sub_id,tid,total);
+                }
+                Toast.makeText(getApplicationContext(), classid+" "+sid_user+" "+String.valueOf(currentMonth)+" "+subid+" "+String.valueOf(i), Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void incrementAttendance(String cid,String mon,String pre,String sid,String subid,String tid,String total){
+        int z=Integer.parseInt(pre)+1;
+        mDatabase=FirebaseDatabase.getInstance().getReference().child(cid).child(sid).child(mon).child(subid);
+        DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,String.valueOf(z),"0");
+        mDatabase.setValue(dataAttendance);
+    }
+
+    public void getTeacherID(final String cid, final String mon, final String pre, final String sid, final String subid, final String total){
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String tid=dataSnapshot.child("tid").getValue().toString();
+                addAttributes(cid,mon,pre,sid,subid,tid,total);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addAttributes(String cid,String mon,String pre,String sid,String subid,String tid,String total){
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Attendace").child(cid).child(sid).child(mon).child(subid);
+        DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,pre,total);
+        mDatabase.setValue(dataAttendance);
+    }
+
 }

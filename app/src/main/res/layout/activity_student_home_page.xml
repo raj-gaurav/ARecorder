@@ -359,6 +359,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="20dp"
             android:padding="15dp"
+            android:id="@+id/edtxt_key"
             android:textSize="19sp"
             android:textColor="#000"/>
 
@@ -371,8 +372,8 @@
         android:text="SUBMIT"
         android:textSize="20sp"
         android:id="@+id/btn_submit"
-        android:background="#3C3CF3"
-        android:textColor="#fff"/>
+
+        />
 
 
 

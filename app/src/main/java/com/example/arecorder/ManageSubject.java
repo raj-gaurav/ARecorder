@@ -113,7 +113,7 @@ public class ManageSubject extends AppCompatActivity {
 
                 mDatabase= FirebaseDatabase.getInstance().getReference().child("Subject");
 
-                DataSubject dataSubject=new DataSubject(sid,cid,sub,tid,tclass);
+                DataSubject dataSubject=new DataSubject(sid,cid,sub,tid,tclass," ");
                 mDatabase.child(sid).setValue(dataSubject);
 
                 Toast.makeText(getApplicationContext(),"Data Added successfully",Toast.LENGTH_SHORT).show();

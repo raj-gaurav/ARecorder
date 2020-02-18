@@ -1,6 +1,7 @@
 package com.example.arecorder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.widget.Button;
 
 public class Admin extends AppCompatActivity {
 
-    Button teacher,student,classes,subject,routine,room;
+    Button teacher,student,classes,subject,routine,room,att;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,14 @@ public class Admin extends AppCompatActivity {
             }
         });
 
+        att.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),AttendanceTable.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 
@@ -74,6 +83,7 @@ public class Admin extends AppCompatActivity {
         subject=findViewById(R.id.subject);
         routine=findViewById(R.id.routine);
         room=findViewById(R.id.room);
+        att=findViewById(R.id.att);
     }
 
 

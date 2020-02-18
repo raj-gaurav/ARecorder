@@ -2,9 +2,11 @@ package com.example.arecorder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.OffsetTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class StudentActivity extends AppCompatActivity {
 
@@ -37,6 +45,7 @@ public class StudentActivity extends AppCompatActivity {
 
     ArrayList<String> list=new ArrayList<String>();
 
+    String ti,dt,d;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase,dref;
 
@@ -92,6 +101,7 @@ public class StudentActivity extends AppCompatActivity {
 
 
         btn_ins.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 String t_id=tid.getEditText().getText().toString().trim();
@@ -108,24 +118,15 @@ public class StudentActivity extends AppCompatActivity {
 
                 mDatabase= FirebaseDatabase.getInstance().getReference().child("Student").child(t_id);
 
-                /*//Registration start
-                mAuth.createUserWithEmailAndPassword(t_email,t_pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"successfully registered", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Registration Incomplete", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                //Registration end*/
+
 
                 DataStudent dataStudent=new DataStudent(t_id,t_name,t_dep,t_sec,"","",t_email,t_pass,t_jyear,t_contact,t_croll,t_registration);
                 mDatabase.setValue(dataStudent);
 
                 Toast.makeText(getApplicationContext(),"Data Added successfully",Toast.LENGTH_SHORT).show();
+
+                getStudentID(t_id);
+
 
                 dialog.dismiss();
 
@@ -306,6 +307,167 @@ public class StudentActivity extends AppCompatActivity {
 
 
 
+
+
+    }
+
+    public void getStudentID(final String id){
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Student").child(id);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String dep=dataSnapshot.child("department").getValue().toString();
+                String sec=dataSnapshot.child("section").getValue().toString();
+                String jyear=dataSnapshot.child("joinyear").getValue().toString();
+                String y=String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(jyear));
+                String syear=String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(y));
+                String classid=dep+sec+syear+y;
+                getClassID(id,classid);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void getClassID(final String id, final String cid){
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter tf1 = DateTimeFormatter.ofPattern("HH:mm");
+
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        LocalDate now = LocalDate.now();
+        LocalTime nowt1=LocalTime.now();
+        dt = dtf.format(now);
+        ti=tf1.format(nowt1);
+       // date.setText(dt);
+        //time.setText(ti);
+
+        if(dayOfWeek==1)
+            d="SUNDAY";
+        else if(dayOfWeek==2)
+            d="MONDAY";
+        else if(dayOfWeek==3)
+            d="TUESDAY";
+        else if(dayOfWeek==4)
+            d="WEDNESDAY";
+        else if(dayOfWeek==5)
+            d="THURSDAY";
+        else if(dayOfWeek==6)
+            d="FRIDAY";
+        else if(dayOfWeek==7)
+            d="SATURDAY";
+
+
+        String t1="09:30:00+05:30";
+        String t2="10:20:00+05:30";
+        String t3="11:10:00+05:30";
+        String t4="12:00:00+05:30";
+        String t5="12:50:00+05:30";
+        String t6="13:40:00+05:30";
+        String t7="14:30:00+05:30";
+        String t8="15:20:00+05:30";
+        String t9="16:10:00+05:30";
+        String t10="17:00:00+05:30";
+
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime nowt=LocalTime.now();
+        ti=tf.format(nowt);
+        OffsetTime cu_t=OffsetTime.parse(ti+"+05:30");
+        OffsetTime p1=OffsetTime.parse(t1);
+        OffsetTime p2=OffsetTime.parse(t2);
+        OffsetTime p3=OffsetTime.parse(t3);
+        OffsetTime p4=OffsetTime.parse(t4);
+        OffsetTime p5=OffsetTime.parse(t5);
+        OffsetTime p6=OffsetTime.parse(t6);
+        OffsetTime p7=OffsetTime.parse(t7);
+        OffsetTime p8=OffsetTime.parse(t8);
+        OffsetTime p9=OffsetTime.parse(t9);
+        OffsetTime p10=OffsetTime.parse(t10);
+        int p=0;
+
+        if(cu_t.isAfter(p1) && cu_t.isBefore(p2))
+            p=1;
+        else if(cu_t.isAfter(p2) && cu_t.isBefore(p3))
+            p=2;
+        else if(cu_t.isAfter(p3) && cu_t.isBefore(p4))
+            p=3;
+        else if(cu_t.isAfter(p4) && cu_t.isBefore(p5))
+            p=4;
+        else if(cu_t.isAfter(p6) && cu_t.isBefore(p7))
+            p=5;
+        else if(cu_t.isAfter(p7) && cu_t.isBefore(p8))
+            p=6;
+        else if(cu_t.isAfter(p8) && cu_t.isBefore(p9))
+            p=7;
+        else if(cu_t.isAfter(p9) && cu_t.isBefore(p10))
+            p=8;
+        else if(cu_t.isAfter(p5) && cu_t.isBefore(p6))
+            p=9;
+        else
+            p=10;
+
+        if(p>=1 && p<=8){
+            final String pe=String.valueOf(p);
+            //period.setText(pe);
+
+            if(d.equals("SUNDAY") ){
+                //period.setText("-");
+                //subject.setText("-");
+                //tid.setText("-");
+            }
+            else{
+                mDatabase= FirebaseDatabase.getInstance().getReference().child("Routine").child(cid).child(d).child(pe);
+
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String subid = dataSnapshot.child("subid").getValue().toString();
+                        getTeacherID(id,cid,subid);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        }
+    }
+
+    public void getTeacherID(final String id,final String cid,final String subid ){
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String tid=dataSnapshot.child("tid").getValue().toString();
+                setAttendanceAttribute(id,cid,subid,tid);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setAttendanceAttribute(final String id, final String cid, final String subid,final String tid){
+        LocalDate currentdate = LocalDate.now();
+        Month currentMonth = currentdate.getMonth();
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("Attendace").child(cid).child(id).child(String.valueOf(currentMonth)).child(subid);
+        DataAttendance dataAttendance=new DataAttendance(cid,id,String.valueOf(currentMonth),subid,tid,"0","0");
+        mDatabase.setValue(dataAttendance);
+
+        Toast.makeText(getApplicationContext(),"Data Attendance Added successfully",Toast.LENGTH_SHORT).show();
 
 
     }

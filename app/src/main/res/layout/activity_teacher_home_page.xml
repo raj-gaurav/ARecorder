@@ -251,6 +251,32 @@
         android:layout_marginTop="15dp"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#DF7E16"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/lat"
+        android:layout_below="@+id/key"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#DF7E16"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:id="@+id/lon"
+        android:layout_below="@+id/key"
+        android:layout_toRightOf="@+id/lat"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        />
+
     <Button
         android:layout_width="175dp"
         android:layout_height="wrap_content"

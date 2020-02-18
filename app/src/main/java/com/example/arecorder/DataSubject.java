@@ -8,17 +8,19 @@ public class DataSubject {
     String subject;
     String tid;
     String tclass;
+    String key;
 
     public DataSubject(DataSnapshot dataSnapshot,String cid){
 
     }
 
-    public DataSubject(String sid,String cid,String subject,String tid, String tclass){
+    public DataSubject(String sid,String cid,String subject,String tid, String tclass,String key){
         this.subid=sid;
         this.cid=cid;
         this.subject=subject;
         this.tid=tid;
         this.tclass=tclass;
+        this.key=key;
     }
 
     public String getSubid() {
@@ -59,5 +61,13 @@ public class DataSubject {
 
     public void setTclass(String tclass) {
         this.tclass = tclass;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

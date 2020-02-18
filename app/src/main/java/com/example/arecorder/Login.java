@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ public class Login extends AppCompatActivity {
     String value;
 
     FirebaseAuth mauth;
+    private ProgressDialog mdialog;
     DatabaseReference dref;
 
     @Override
@@ -40,7 +42,7 @@ public class Login extends AppCompatActivity {
 
         init();
         mauth=FirebaseAuth.getInstance();
-
+        mdialog=new ProgressDialog(this);
         value=getIntent().getExtras().getString("key");
         if(value.equals("1"))
         {
@@ -59,6 +61,8 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mdialog.setMessage("Logging in...");
+                mdialog.show();
                 if(value.equals("1")){
                     adminAction();
                 }
@@ -109,6 +113,7 @@ public class Login extends AppCompatActivity {
         {
             Intent i=new Intent(getApplicationContext(),Admin.class);
             startActivity(i);
+            mdialog.dismiss();
             finish();
         }
     }
@@ -146,6 +151,8 @@ public class Login extends AppCompatActivity {
                             Intent i=new Intent(getApplicationContext(),TeacherHomePage.class);
                             i.putExtra("tid",user);
                             startActivity(i);
+                            mdialog.dismiss();
+                            //Toast.makeText(getApplicationContext(),username1+" "+password1,Toast.LENGTH_SHORT).show();
                         }
                         else{
                             username.setError("Invalid Username");
@@ -195,6 +202,7 @@ public class Login extends AppCompatActivity {
                             Intent i=new Intent(getApplicationContext(),StudentHomePage.class);
                             i.putExtra("sid",user);
                             startActivity(i);
+                            mdialog.dismiss();
                         }
                         else{
                             username.setError("Invalid Username");
