@@ -53,7 +53,7 @@ public class StudentHomePage extends AppCompatActivity {
 
     String sid_user,dt,ti,d, classid;
 
-    DatabaseReference mDatabase,dref,dref1;
+    DatabaseReference mDatabase,dref;
 
     static StudentHomePage instance;
     LocationRequest locationRequest;
@@ -280,7 +280,7 @@ public class StudentHomePage extends AppCompatActivity {
 
 
            // Toast.makeText(getApplicationContext(),d+" "+p+" "+c_id,Toast.LENGTH_SHORT).show();
-        if(p>=1 && p<=8)
+        if(p>=1 && p<=8 )
         {
             final String pe=String.valueOf(p);
             period.setText(pe);
@@ -298,6 +298,7 @@ public class StudentHomePage extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String subid =dataSnapshot.child("subid").getValue().toString();
                         subject.setText(subid);
+                        if(!subid.equals("LIB"))
                         setTeacherId(subid,c_id);
                     }
 
@@ -448,8 +449,9 @@ public class StudentHomePage extends AppCompatActivity {
         dref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String t_lat=dataSnapshot.child("latitude").getValue().toString();
-                String t_lon=dataSnapshot.child("longitude").getValue().toString();
+                String t_lat=dataSnapshot.child("latitude").getValue(String.class);
+                String t_lon=dataSnapshot.child("longitude").getValue(String.class);
+                //Toast.makeText(getApplicationContext(),s_lat+" "+s_lon,Toast.LENGTH_SHORT).show();
                 calculateDistance(s_lat,s_lon,t_lat,t_lon,t_s,c_id);
                 //
             }

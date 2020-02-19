@@ -1,6 +1,7 @@
 package com.example.arecorder;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -47,6 +50,8 @@ public class TeacherHomePage extends AppCompatActivity {
 
     static TeacherHomePage instance;
     LocationRequest locationRequest;
+
+
 
     //TextView txt_location;
 
@@ -273,8 +278,10 @@ public class TeacherHomePage extends AppCompatActivity {
                                         String subject=dataSnapshot.child("subject").getValue().toString();
                                         String tclass=dataSnapshot.child("tclass").getValue().toString();
                                         String tid=dataSnapshot.child("tid").getValue().toString();
+                                        //int t=Integer.parseInt(tclass);
 
-                                        incrementTotalClass(cid,subid,subject,tclass,tid,k);
+                                        //DatabaseReference ref=FirebaseDatabase.getInstance().getReference();
+                                        incrementTotalClass(cid,subid,subject,tclass,tid,k,1);
                                         count++;
                                         btn_gen.setEnabled(false);
 
@@ -314,12 +321,22 @@ public class TeacherHomePage extends AppCompatActivity {
         }
     }
 
-    public void incrementTotalClass(String cid, String subid,String subject,String tclass,String tid,String k){
+    public void incrementTotalClass(String cid, String subid, String subject, String tclass, String tid, String k, int flag){
 
-        int z=0;
-        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
-        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,String.valueOf(z),k);
-        mDatabase.setValue(dataSubject);
+        /*if(flag==1){
+            flag=0;
+            int z = Integer.parseInt(tclass);
+            z+=1;
+            Toast.makeText(getApplicationContext(),String.valueOf(z),Toast.LENGTH_SHORT).show();
+            mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid);
+            DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,String.valueOf(z),k);
+            mDatabase.setValue(dataSubject);
+
+        }*/
+
+
+
+
     }
 
     public void updateLocation(){
