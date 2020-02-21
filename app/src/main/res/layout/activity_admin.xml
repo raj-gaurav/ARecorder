@@ -6,10 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Admin"
-    android:gravity="center"
+
     android:background="@drawable/bg">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/appBar"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            app:titleTextColor="#fff">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBar"
+        android:gravity="center">
     <Button
         android:layout_width="175dp"
         android:layout_height="wrap_content"
@@ -67,6 +87,7 @@
         android:text="MANAGE ATTENDANCE TABLE"
         android:id="@+id/att"
         android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
 
 
 

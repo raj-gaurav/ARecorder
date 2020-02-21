@@ -17,17 +17,17 @@
         <receiver android:name=".MyLocationService" />
 
         <activity android:name=".ManageRoom" />
-        <activity android:name=".TeacherHomePage" />
-        <activity android:name=".ClassRoutine" />
+        <activity android:name=".TeacherHomePage"  />
+        <activity android:name=".ClassRoutine"  android:parentActivityName=".YearwiseClass"/>
         <activity android:name=".YearwiseClass" />
         <activity android:name=".ManageRoutine" />
         <activity android:name=".ManageSubject" />
-        <activity android:name=".StudentHomePage" />
+        <activity android:name=".StudentHomePage"  />
         <activity android:name=".ManageClass" />
         <activity android:name=".StudentActivity" />
         <activity android:name=".TeacherActivity" />
-        <activity android:name=".Admin" />
-        <activity android:name=".Login" />
+        <activity android:name=".Admin" android:parentActivityName=".Login"/>
+        <activity android:name=".Login" android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

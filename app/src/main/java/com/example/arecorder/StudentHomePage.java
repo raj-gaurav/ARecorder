@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -58,6 +59,7 @@ public class StudentHomePage extends AppCompatActivity {
     static StudentHomePage instance;
     LocationRequest locationRequest;
 
+    Toolbar toolbar;
     //TextView txt_location;
 
 
@@ -75,6 +77,9 @@ public class StudentHomePage extends AppCompatActivity {
         setContentView(R.layout.activity_student_home_page);
 
         init();
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Student Home");
 
         sid_user=getIntent().getExtras().getString("sid");
         btn_submit.setEnabled(false);

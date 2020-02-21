@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +28,7 @@ public class ClassRoutine extends AppCompatActivity {
 
     ListView lv;
     FloatingActionButton fab;
-
+    Toolbar toolbar;
     DatabaseReference mDatabase;
 
     ArrayList<String> list=new ArrayList<String>();
@@ -39,7 +39,10 @@ public class ClassRoutine extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_routine);
-
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Class Routine");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         lv=findViewById(R.id.lv);
         fab=findViewById(R.id.fab);
 

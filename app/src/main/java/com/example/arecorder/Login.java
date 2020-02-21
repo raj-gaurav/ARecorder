@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+//import android.widget.Toolbar;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import androidx.appcompat.widget.Toolbar;
 
 public class Login extends AppCompatActivity {
 
@@ -30,6 +33,7 @@ public class Login extends AppCompatActivity {
     TextInputLayout username, password;
     Button login;
     String value;
+    Toolbar toolbar;
 
     FirebaseAuth mauth;
     private ProgressDialog mdialog;
@@ -41,6 +45,10 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         init();
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mauth=FirebaseAuth.getInstance();
         mdialog=new ProgressDialog(this);
         value=getIntent().getExtras().getString("key");
@@ -77,6 +85,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void init(){
+        toolbar=findViewById(R.id.toolbar);
         txt=findViewById(R.id.txt);
         fpass=findViewById(R.id.fpass);
         username=findViewById(R.id.username);
