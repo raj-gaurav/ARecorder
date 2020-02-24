@@ -120,10 +120,14 @@ public class Login extends AppCompatActivity {
 
         if(a==1 && b==1)
         {
+
             Intent i=new Intent(getApplicationContext(),Admin.class);
             startActivity(i);
             mdialog.dismiss();
             finish();
+        }
+        else{
+            mdialog.dismiss();
         }
     }
 
@@ -152,11 +156,12 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //Toast.makeText(getApplicationContext(),"Here.....",Toast.LENGTH_SHORT).show();
-                        String username1=dataSnapshot.child("id").getValue().toString();
-                        String password1=dataSnapshot.child("password").getValue().toString();
-                        String email=dataSnapshot.child("email").getValue().toString();
+                        String username1=dataSnapshot.child("id").getValue(String.class);
+                        String password1=dataSnapshot.child("password").getValue(String.class);
+                        String email=dataSnapshot.child("email").getValue(String.class);
 
                         if(user.equals(username1) && pass.equals(password1)){
+
                             Intent i=new Intent(getApplicationContext(),TeacherHomePage.class);
                             i.putExtra("tid",user);
                             startActivity(i);
@@ -166,6 +171,7 @@ public class Login extends AppCompatActivity {
                         else{
                             username.setError("Invalid Username");
                             password.setError("Invalid Password");
+                            mdialog.dismiss();
                         }
                     }
 
@@ -202,12 +208,15 @@ public class Login extends AppCompatActivity {
                 dref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                         //Toast.makeText(getApplicationContext(),"Here.....",Toast.LENGTH_SHORT).show();
                         String username1=dataSnapshot.child("id").getValue().toString();
                         String password1=dataSnapshot.child("password").getValue().toString();
                         String email=dataSnapshot.child("email").getValue().toString();
 
                         if(user.equals(username1) && pass.equals(password1)){
+                            username.setError(null);
+                            password.setError(null);
                             Intent i=new Intent(getApplicationContext(),StudentHomePage.class);
                             i.putExtra("sid",user);
                             startActivity(i);
@@ -216,6 +225,8 @@ public class Login extends AppCompatActivity {
                         else{
                             username.setError("Invalid Username");
                             password.setError("Invalid Password");
+                            mdialog.dismiss();
+
                         }
                     }
 

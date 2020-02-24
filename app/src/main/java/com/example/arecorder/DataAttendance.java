@@ -4,12 +4,12 @@ import com.google.firebase.database.DataSnapshot;
 
 public class DataAttendance {
 
-    String present,total,c_id,tid,sid,subid,month;
+    String present,total,c_id,tid,sid,subid,month,flag,date,period;
 
     public DataAttendance(String present, DataSnapshot dataSnapshot){
 
     }
-    public DataAttendance(String c_id,String sid,String month,String subid,String tid,String present,String total){
+    public DataAttendance(String c_id,String sid,String month,String subid,String tid,String present,String total,String flag,String date,String period){
         this.c_id=c_id;
         this.sid=sid;
         this.month=month;
@@ -17,9 +17,35 @@ public class DataAttendance {
         this.tid=tid;
         this.present=present;
         this.total=total;
+        this.flag=flag;
+        this.date=date;
+        this.period=period;
 
     }
 
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
 
     public String getPresent() {
         return present;

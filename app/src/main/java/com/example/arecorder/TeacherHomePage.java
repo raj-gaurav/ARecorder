@@ -49,9 +49,9 @@ public class TeacherHomePage extends AppCompatActivity {
     TextView name,department,jyear,email,contact,tid,date,time,day,period,subid,classid,key,lat,lon;
     Button btn_gen;
 
-    String t_id,da,ti,d,flag;
+    String t_id,da,ti,d,flag,f,key1;
     int count=0;
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabase,ref,dref;
     Toolbar toolbar;
     static TeacherHomePage instance;
     LocationRequest locationRequest;
@@ -86,6 +86,7 @@ public class TeacherHomePage extends AppCompatActivity {
         section1();
         section2();
         section3();
+        Toast.makeText(getApplicationContext(), subid.getText().toString().trim(), Toast.LENGTH_SHORT).show();
 
         Dexter.withActivity(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
@@ -281,7 +282,34 @@ public class TeacherHomePage extends AppCompatActivity {
                         subid.setText(s);
                         classid.setText(c);
                         //Toast.makeText(getApplicationContext())
-                        btn_gen.setEnabled(true);
+
+                        dref=FirebaseDatabase.getInstance().getReference().child("Subject").child(s);
+                        dref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                               String f=dataSnapshot.child("flag").getValue(String.class);
+                               String k=dataSnapshot.child("key").getValue(String.class);
+                               if(f.equals("0")){
+                                   btn_gen.setEnabled(false);
+                                   key.setText(k);
+                               }
+                               else
+                               {
+                                   btn_gen.setEnabled(true);
+                               }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+
+
+
                     }
 
                     @Override
@@ -290,10 +318,7 @@ public class TeacherHomePage extends AppCompatActivity {
                     }
                 });
 
-                    if(count!=0){
-                        btn_gen.setEnabled(false);
-                    }
-                    else{
+
                         btn_gen.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -329,7 +354,7 @@ public class TeacherHomePage extends AppCompatActivity {
 
                             }
                         });
-                    }
+
 
 
 
@@ -437,15 +462,18 @@ public class TeacherHomePage extends AppCompatActivity {
         });
     }
 
-    public void setFlagBitgettingSID(String tid,String d,String pe){
+    public void setFlagBitgettingSID(String tid,String day,String pe){
         int per=Integer.parseInt(pe);
         if(per>=1&&per<=8){
-            mDatabase=FirebaseDatabase.getInstance().getReference().child("TeacherRoutine").child(tid).child(d).child(pe);
+            mDatabase=FirebaseDatabase.getInstance().getReference().child("TeacherRoutine").child(tid).child(day).child(pe);
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String sid=dataSnapshot.child("sid").getValue(String.class);
-                    setFlagBit(sid);
+
+
+                        setFlagBit(sid);
+
                 }
 
                 @Override
@@ -457,9 +485,9 @@ public class TeacherHomePage extends AppCompatActivity {
 
     }
 
-    public void setFlagBit(String sid){
-        mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(sid);
-        mDatabase.addValueEventListener(new ValueEventListener() {
+    public void setFlagBit(String sid) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Subject").child(sid);
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String cid=dataSnapshot.child("cid").getValue().toString();
@@ -472,27 +500,35 @@ public class TeacherHomePage extends AppCompatActivity {
                 String date=dataSnapshot.child("date").getValue(String.class);
                 String period1=dataSnapshot.child("period").getValue(String.class);
 
-                Date d1 = null,d2=null;
-                SimpleDateFormat sdfo= new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                     d1 = sdfo.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                     d2 = sdfo.parse(da);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if(date==null || period1==null){
+                    date="00/00/000";
+                    period1="0";
+
                 }
 
-                if(d1.compareTo(d2)==0 && period1.equals(period.getText().toString().trim())){
-                    DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,tclass,key,flag,date,period1);
-                    mDatabase.setValue(dataSubject);
+                try{
+                    SimpleDateFormat sdfo= new SimpleDateFormat("dd/MM/yyyy");
+
+                    Date d1 = sdfo.parse(date);
+                    Date d2 = sdfo.parse(da);
+                    //Toast.makeText(getApplicationContext(), date+ " "+ da, Toast.LENGTH_SHORT).show();
+                    if(d1.compareTo(d2)==0 && period1.equals(period.getText().toString().trim())){
+                        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,tclass,key,flag,date,period1);
+                        ref.setValue(dataSubject);
+                    }
+                    else{
+                        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,tclass,"","1",da,period.getText().toString().trim());
+                        ref.setValue(dataSubject);
+                    }
+                }catch(ParseException e){
+                    e.printStackTrace();
+                 //   Toast.makeText(getApplicationContext(), (CharSequence) e, Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,tclass,"","1",da,period.getText().toString().trim());
-                    mDatabase.setValue(dataSubject);
-                }
+
+
+
+
+
 
             }
 

@@ -464,7 +464,7 @@ public class StudentActivity extends AppCompatActivity {
         LocalDate currentdate = LocalDate.now();
         Month currentMonth = currentdate.getMonth();
         mDatabase=FirebaseDatabase.getInstance().getReference().child("Attendace").child(cid).child(id).child(String.valueOf(currentMonth)).child(subid);
-        DataAttendance dataAttendance=new DataAttendance(cid,id,String.valueOf(currentMonth),subid,tid,"0","0");
+        DataAttendance dataAttendance=new DataAttendance(cid,id,String.valueOf(currentMonth),subid,tid,"0","0","1","","");
         mDatabase.setValue(dataAttendance);
 
         Toast.makeText(getApplicationContext(),"Data Attendance Added successfully",Toast.LENGTH_SHORT).show();
