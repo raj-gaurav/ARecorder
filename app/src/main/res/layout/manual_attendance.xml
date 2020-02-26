@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manual Attendance"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="#F53E2B"
+        android:textColor="#fff"
+        android:id="@+id/txt"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Student ID"
+        android:id="@+id/stu_id"
+        android:layout_below="@+id/txt"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:textSize="20sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Subject ID"
+        android:id="@+id/sub_id"
+        android:layout_below="@+id/stu_id"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:textSize="20sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total Classes missed"
+        android:id="@+id/total_class"
+        android:layout_below="@+id/sub_id"
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:textSize="20sp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/total_class"
+        android:background="#F53E2B"
+        android:text="Make Attendance"
+        android:textSize="20sp"
+        android:id="@+id/btn_makeAtt"
+        android:textColor="#fff"/>
+
+
+</RelativeLayout>

@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     TextView txt,fpass;
     TextInputLayout username, password;
     Button login;
-    String value;
+    String value,p;
     Toolbar toolbar;
 
     FirebaseAuth mauth;
@@ -51,7 +51,9 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mauth=FirebaseAuth.getInstance();
         mdialog=new ProgressDialog(this);
+
         value=getIntent().getExtras().getString("key");
+
         if(value.equals("1"))
         {
             txt.setText("ADMIN LOGIN");

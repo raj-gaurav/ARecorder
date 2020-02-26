@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button student,teacher,admin;
-
+    String k,p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        k="page";
+        p="MainActivity";
         adminAction();
         studentAction();
         teacherAction();
@@ -35,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),Login.class);
                 i.putExtra("key","1");
+                i.putExtra(k,p);
                 startActivity(i);
+                finish();
 
             }
         });
@@ -47,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),Login.class);
                 i.putExtra("key","2");
+                i.putExtra(k,p);
                 startActivity(i);
+                finish();
             }
         });
     }
@@ -58,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),Login.class);
                 i.putExtra("key","3");
+                i.putExtra(k,p);
                 startActivity(i);
+                finish();
             }
         });
     }

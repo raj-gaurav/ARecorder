@@ -306,7 +306,17 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/lon"
                 android:layout_below="@+id/layout"/>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Make manual Attendance"
+                android:textStyle="bold"
+                android:id="@+id/manAtt"
+                android:layout_below="@+id/lay3"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:textSize="18sp"
+                android:textColor="#F35D4F"/>
 
 
 </RelativeLayout>

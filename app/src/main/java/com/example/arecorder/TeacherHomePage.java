@@ -3,17 +3,21 @@ package com.example.arecorder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.Manifest;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -46,7 +51,7 @@ import java.util.Random;
 
 public class TeacherHomePage extends AppCompatActivity {
 
-    TextView name,department,jyear,email,contact,tid,date,time,day,period,subid,classid,key,lat,lon;
+    TextView name,department,jyear,email,contact,tid,date,time,day,period,subid,classid,key,lat,lon,man;
     Button btn_gen;
 
     String t_id,da,ti,d,flag,f,key1;
@@ -106,7 +111,12 @@ public class TeacherHomePage extends AppCompatActivity {
                     }
                 }).check();
 
-
+        man.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeManaualAttendance();
+            }
+        });
 
 
     }
@@ -123,6 +133,7 @@ public class TeacherHomePage extends AppCompatActivity {
         if(item.getItemId()==R.id.logout)
         {
             Intent i=new Intent(getApplicationContext(),Login.class);
+            i.putExtra("key","2");
             startActivity(i);
             finish();
         }
@@ -147,6 +158,8 @@ public class TeacherHomePage extends AppCompatActivity {
         btn_gen=findViewById(R.id.btn_gen);
         lat=findViewById(R.id.lat);
         lon=findViewById(R.id.lon);
+        man=findViewById(R.id.manAtt);
+
     }
     public void section1(){
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
@@ -508,6 +521,8 @@ public class TeacherHomePage extends AppCompatActivity {
 
                 }
 
+
+
                 try{
                     SimpleDateFormat sdfo= new SimpleDateFormat("dd/MM/yyyy");
 
@@ -519,7 +534,7 @@ public class TeacherHomePage extends AppCompatActivity {
                         ref.setValue(dataSubject);
                     }
                     else{
-                        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,tclass,"","1",da,period.getText().toString().trim());
+                        DataSubject dataSubject=new DataSubject(subid,cid,subject,tid,"0","","1",da,period.getText().toString().trim());
                         ref.setValue(dataSubject);
                     }
                 }catch(ParseException e){
@@ -539,6 +554,130 @@ public class TeacherHomePage extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void makeManaualAttendance(){
+        AlertDialog.Builder myDialog= new AlertDialog.Builder(TeacherHomePage.this);
+
+        LayoutInflater inflater=LayoutInflater.from(TeacherHomePage.this);
+
+        View manual_attendance=inflater.inflate(R.layout.manual_attendance,null);
+
+        final AlertDialog dialog=myDialog.create();
+
+        dialog.setView(manual_attendance);
+
+        final EditText stu=manual_attendance.findViewById(R.id.stu_id);
+        final EditText sub=manual_attendance.findViewById(R.id.sub_id);
+        final EditText tot=manual_attendance.findViewById(R.id.total_class);
+        Button btn_makeAtt=manual_attendance.findViewById(R.id.btn_makeAtt);
+
+        sub.setText(subid.getText().toString().trim());
+        btn_makeAtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String st=stu.getText().toString().trim();
+                final String su=sub.getText().toString().trim();
+                final String to=tot.getText().toString().trim();
+
+                if(st.isEmpty() || su.isEmpty() || su.equals("-") || to.isEmpty()){
+                    stu.setError("Field can't be empty");
+                    sub.setError("Field can't be empty");
+                }
+                else{
+                    DatabaseReference m;
+                    m=FirebaseDatabase.getInstance().getReference().child("Subject").child(su);
+                    m.addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            final String c=dataSnapshot.child("cid").getValue(String.class);
+                            LocalDate currentdate = LocalDate.now();
+                            Month currentMonth = currentdate.getMonth();
+                            final String mon=String.valueOf(currentMonth);
+                            final DatabaseReference y=FirebaseDatabase.getInstance().getReference().child("Attendace").child(c).child(st).child(mon).child(su);
+
+                            y.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if(dataSnapshot.getChildrenCount()==0){
+                                       Toast.makeText(getApplicationContext(),"First Class",Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        final String cid=dataSnapshot.child("c_id").getValue(String.class);
+                                        final String sid=dataSnapshot.child("sid").getValue(String.class);
+                                        final String mon=dataSnapshot.child("month").getValue(String.class);
+                                        final String subid=dataSnapshot.child("subid").getValue(String.class);
+                                        final String tid=dataSnapshot.child("tid").getValue(String.class);
+                                        final String present=dataSnapshot.child("present").getValue(String.class);
+                                        final String total=dataSnapshot.child("total").getValue(String.class);
+                                        final String flag=dataSnapshot.child("flag").getValue(String.class);
+                                        final String date=dataSnapshot.child("date").getValue(String.class);
+                                        final String period=dataSnapshot.child("period").getValue(String.class);
+
+                                        int z=Integer.parseInt(present);
+                                        final String zi=String.valueOf(z+Integer.parseInt(to));
+
+                                   /* AlertDialog.Builder builder=new AlertDialog.Builder(TeacherHomePage.this);
+                                    builder.setCancelable(false);
+                                    builder.setTitle("Confirmation");
+                                    builder.setMessage("Are you sure you want to make attendance for "+sid);
+                                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Toast.makeText(getApplicationContext(),zi,Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });*/
+
+                                        if(total.equals("0")){
+                                            DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,zi,"1",flag,date,period);
+                                            y.setValue(dataAttendance);
+                                            dialog.dismiss();
+                                        }
+                                        else{
+
+                                        }
+                                    }
+
+
+
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }
+
+
+            }
+        });
+
+
+
+        dialog.show();
     }
 
 

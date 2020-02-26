@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">>
 
     <item
+        android:id="@+id/at_list"
+        android:title="Attendance List"
+        />
+    <item
         android:id="@+id/logout"
-        android:icon="@drawable/logout"
         android:title="Log out"
-        app:showAsAction="ifRoom"/>
+        />
 </menu>
