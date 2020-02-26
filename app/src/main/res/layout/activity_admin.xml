@@ -34,6 +34,7 @@
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:text="Teacher Activity"
+        android:background="@drawable/t_layout_3"
         android:padding="20dp"
         android:id="@+id/teacher"/>
     <Button
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:text="Student Activity"
         android:padding="20dp"
+        android:background="@drawable/t_layout_3"
         android:id="@+id/student"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/teacher"/>
@@ -49,12 +51,14 @@
         android:layout_height="wrap_content"
         android:text="Manage Routine"
         android:layout_below="@+id/teacher"
+        android:background="@drawable/t_layout_3"
         android:padding="20dp"
         android:id="@+id/routine"
         />
     <Button
         android:layout_width="175dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/t_layout_3"
         android:text="Manage Subject"
         android:layout_below="@+id/student"
         android:layout_toRightOf="@+id/routine"
@@ -67,6 +71,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/routine"
+        android:background="@drawable/t_layout_3"
         android:padding="20dp"
         android:text="MANAGE CLASSES"
         android:id="@+id/classes"
@@ -75,6 +80,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/classes"
+        android:background="@drawable/t_layout_3"
         android:padding="20dp"
         android:text="MANAGE TEACHER ROUTINE"
         android:id="@+id/room"
@@ -83,6 +89,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/room"
+        android:background="@drawable/t_layout_3"
         android:padding="20dp"
         android:text="MANAGE ATTENDANCE TABLE"
         android:id="@+id/att"

@@ -182,6 +182,9 @@ public class Login extends AppCompatActivity {
                 });
             }
         }
+        else{
+            mdialog.dismiss();
+        }
     }
 
     public void studentAction(){
@@ -236,6 +239,9 @@ public class Login extends AppCompatActivity {
                     }
                 });
             }
+        }
+        else{
+            mdialog.dismiss();
         }
     }
 

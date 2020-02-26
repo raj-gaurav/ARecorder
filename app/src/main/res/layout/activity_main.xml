@@ -7,45 +7,51 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@drawable/bg"
+    android:padding="20dp"
     >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LOGIN ACTIVITY"
-        android:textColor="#000"
+        android:textColor="#FA0000"
         android:id="@+id/txt"
         android:padding="10dp"
-        android:layout_margin="120dp"
+        android:layout_margin="100dp"
         android:textSize="20sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         />
     <Button
-        android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_width="175dp"
+        android:layout_height="200dp"
+        android:background="@drawable/t_layout_3"
         android:text="student"
         android:layout_marginBottom="10dp"
         android:id="@+id/student"
         android:layout_below="@+id/txt"
-        android:layout_marginLeft="130dp"
+        android:textSize="25sp"
         />
     <Button
-        android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_width="175dp"
+        android:layout_height="200dp"
         android:text="teacher"
         android:id="@+id/teacher"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/student"
-        android:layout_marginLeft="130dp"
+        android:layout_below="@+id/txt"
+        android:layout_toRightOf="@+id/student"
+        android:layout_marginLeft="10dp"
+        android:textSize="25sp"
+        android:background="@drawable/t_layout_3"
         />
     <Button
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         android:text="admin"
         android:id="@+id/admin"
         android:layout_marginBottom="10dp"
         android:layout_below="@+id/teacher"
-        android:layout_marginLeft="130dp"
+        android:background="@drawable/t_layout_3"
+        android:textSize="25sp"
         />
 
 

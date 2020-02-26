@@ -54,7 +54,7 @@ public class StudentHomePage extends AppCompatActivity {
 
     String sid_user,dt,ti,d, classid;
 
-    DatabaseReference mDatabase,dref,ref,ref1;
+    DatabaseReference mDatabase,dref,ref,ref1,dref1;
 
     static StudentHomePage instance;
     LocationRequest locationRequest;
@@ -90,6 +90,8 @@ public class StudentHomePage extends AppCompatActivity {
         //section 2 start
 
         section2();
+
+
 
         //section 2 end
 
@@ -508,8 +510,9 @@ public class StudentHomePage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String key1=dataSnapshot.child("key").getValue().toString();
-
-                if(edtxt_key.getText().toString().trim().equals(key1)){
+                String k=edtxt_key.getText().toString().trim();
+                String ok=subid+classid+k;
+                if(ok.equals(key1)){
                     makeStudentAttendance(subid,classid,pe);
                 }
                 else{
@@ -536,7 +539,7 @@ public class StudentHomePage extends AppCompatActivity {
                 int i= (int) dataSnapshot.getChildrenCount();
 
                 if(i==0){
-                    getTeacherID(classid,String.valueOf(currentMonth),"1",sid_user,subid,"0");
+                    getTeacherID(classid,String.valueOf(currentMonth),"0",sid_user,subid,"0");
                 }
                 else{
                     String c_id=dataSnapshot.child("c_id").getValue(String.class);
@@ -550,11 +553,14 @@ public class StudentHomePage extends AppCompatActivity {
                     String date=dataSnapshot.child("date").getValue(String.class);
                     String period=dataSnapshot.child("period").getValue(String.class);
 
-                    int z=Integer.parseInt(present)+1;
 
-                     incrementAttendance(c_id,month,String.valueOf(z),sid,sub_id,tid,total,flag,pe);
+                    if(flag.equals("1")){
+                        incrementAttendance(c_id,month,present,sid,sub_id,tid,total,flag,pe);
+                    }
+
+
                     //Toast.makeText(StudentHomePage.this, classid+" "+sid_user+" "+String.valueOf(currentMonth)+" "+ subid, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), c_id+" "+month+" "+String.valueOf(z)+" "+sid+" "+sub_id+" "+tid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), c_id+" "+month+" "+present+" "+sid+" "+sub_id+" "+tid, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -579,6 +585,7 @@ public class StudentHomePage extends AppCompatActivity {
             mDatabase=FirebaseDatabase.getInstance().getReference().child("Attendace").child(cid).child(sid).child(mon).child(subid);
             DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,String.valueOf(z),"0",flag,dt,pe);
             mDatabase.setValue(dataAttendance);
+            btn_submit.setEnabled(false);
         }
 
     }
@@ -614,42 +621,61 @@ public class StudentHomePage extends AppCompatActivity {
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String  cid=dataSnapshot.child("c_id").getValue(String.class);
-                String  mon=dataSnapshot.child("month").getValue(String.class);
-                String  present=dataSnapshot.child("present").getValue(String.class);
-                String  sid=dataSnapshot.child("sid").getValue(String.class);
-                String  subid=dataSnapshot.child("subid").getValue(String.class);
-                String  tid=dataSnapshot.child("tid").getValue(String.class);
-                String  total=dataSnapshot.child("total").getValue(String.class);
-                String  flag=dataSnapshot.child("flag").getValue(String.class);
-                String  date=dataSnapshot.child("date").getValue(String.class);
-                String  period1=dataSnapshot.child("period").getValue(String.class);
 
-
-                if(date==null || period1==null){
-                    date="00/00/000";
-                    period1="0";
+                if(dataSnapshot.getChildrenCount()==0){
 
                 }
+                else{
+                    String  cid=dataSnapshot.child("c_id").getValue(String.class);
+                    String  mon=dataSnapshot.child("month").getValue(String.class);
+                    String  present=dataSnapshot.child("present").getValue(String.class);
+                    String  sid=dataSnapshot.child("sid").getValue(String.class);
+                    String  subid=dataSnapshot.child("subid").getValue(String.class);
+                    String  tid=dataSnapshot.child("tid").getValue(String.class);
+                    String  total=dataSnapshot.child("total").getValue(String.class);
+                    String  flag=dataSnapshot.child("flag").getValue(String.class);
+                    String  date=dataSnapshot.child("date").getValue(String.class);
+                    String  period1=dataSnapshot.child("period").getValue(String.class);
 
-                try{
-                    SimpleDateFormat sdfo= new SimpleDateFormat("dd/MM/yyyy");
 
-                    Date d1 = sdfo.parse(date);
-                    Date d2 = sdfo.parse(dt);
-                    //Toast.makeText(getApplicationContext(), date+ " "+ da, Toast.LENGTH_SHORT).show();
-                    if(d1.compareTo(d2)==0 && period1.equals(period.getText().toString().trim())){
-                        DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,present,total,flag,date,period1);
-                        ref1.setValue(dataAttendance);
+
+
+                    if(date==null || period1==null){
+                        date="00/00/000";
+                        period1="0";
+
+                    }
+
+                    try{
+                        SimpleDateFormat sdfo= new SimpleDateFormat("dd/MM/yyyy");
+
+                        Date d1 = sdfo.parse(date);
+                        Date d2 = sdfo.parse(dt);
+                        //Toast.makeText(getApplicationContext(), date+ " "+ da, Toast.LENGTH_SHORT).show();
+                        if(d1.compareTo(d2)==0 && period1.equals(period.getText().toString().trim())){
+                            DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,present,total,flag,date,period1);
+                            ref1.setValue(dataAttendance);
+                        }
+                        else{
+                            DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,present,"0","1",dt,period.getText().toString().trim());
+                            ref1.setValue(dataAttendance);
+                        }
+                    }catch(ParseException e){
+                        e.printStackTrace();
+                        //   Toast.makeText(getApplicationContext(), (CharSequence) e, Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    if(flag.equals("1")){
+                        btn_submit.setEnabled(true);
                     }
                     else{
-                        DataAttendance dataAttendance=new DataAttendance(cid,sid,mon,subid,tid,present,"0","1",dt,period.getText().toString().trim());
-                        ref1.setValue(dataAttendance);
+                        btn_submit.setEnabled(false);
+                        btn_submit.setText("Attendance already done.");
                     }
-                }catch(ParseException e){
-                    e.printStackTrace();
-                    //   Toast.makeText(getApplicationContext(), (CharSequence) e, Toast.LENGTH_SHORT).show();
+
                 }
+
 
 
 

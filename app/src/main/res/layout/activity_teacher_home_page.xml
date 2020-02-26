@@ -27,9 +27,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/appBar"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:id="@+id/layout">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -259,57 +260,52 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Abghbj25462"
-        android:textColor="#DF7E16"
-        android:textSize="20sp"
-        android:padding="5dp"
-        android:id="@+id/key"
-        android:layout_below="@+id/line1"
-        android:layout_marginTop="15dp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="#DF7E16"
-        android:textSize="20sp"
-        android:padding="5dp"
-        android:id="@+id/lat"
-        android:layout_below="@+id/key"
-        android:layout_marginTop="15dp"
-        android:visibility="invisible"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="#DF7E16"
-        android:textSize="20sp"
-        android:padding="5dp"
-        android:id="@+id/lon"
-        android:layout_below="@+id/key"
-        android:layout_toRightOf="@+id/lat"
-        android:layout_marginTop="15dp"
-        android:visibility="invisible"
-        />
-
-    <Button
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/line1"
-        android:layout_marginTop="12dp"
-        android:layout_toRightOf="@+id/key"
-        android:text="Generate"
-        android:id="@+id/btn_gen"
-        android:textSize="20sp"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/lay3"
+            android:layout_margin="10dp"
+            android:background="@drawable/t_layout_3"
+            android:layout_below="@+id/layout">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:background="#fff"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:hint="Attendance Key"
+                android:id="@+id/key"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_below="@+id/key"
+                android:text="Generate"
+                android:id="@+id/btn_gen"
+                android:background="#F35D4F"
+                android:textSize="20sp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                />
 
     </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lat"
+                android:layout_below="@+id/layout"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lon"
+                android:layout_below="@+id/layout"/>
 
 
 

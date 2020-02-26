@@ -291,11 +291,13 @@ public class TeacherHomePage extends AppCompatActivity {
                                String k=dataSnapshot.child("key").getValue(String.class);
                                if(f.equals("0")){
                                    btn_gen.setEnabled(false);
+                                   btn_gen.setText("Key Generated");
                                    key.setText(k);
                                }
                                else
                                {
                                    btn_gen.setEnabled(true);
+
                                }
                             }
 
@@ -324,7 +326,7 @@ public class TeacherHomePage extends AppCompatActivity {
                             public void onClick(View v) {
                                 int rand=(int) (1015620.0*Math.random());
                                 final String k=subid.getText().toString().trim()+classid.getText().toString().trim()+String.valueOf(rand);
-                                key.setText(k);
+                                key.setText(String.valueOf(rand));
                                 mDatabase=FirebaseDatabase.getInstance().getReference().child("Subject").child(subid.getText().toString().trim());
                                 mDatabase.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -343,7 +345,7 @@ public class TeacherHomePage extends AppCompatActivity {
                                         incrementTotalClass(cid,subid,subject,tclass,tid,k,flag);
                                         count++;
                                         btn_gen.setEnabled(false);
-
+                                        btn_gen.setText("Key Generated.");
                                     }
 
                                     @Override
@@ -430,8 +432,8 @@ public class TeacherHomePage extends AppCompatActivity {
             @Override
             public void run() {
                 /*txt_location.setText(value);*/
-                lat.setText(latitude);
-                lon.setText(longitude);
+                /*lat.setText(latitude);
+                lon.setText(longitude);*/
                 mDatabase=FirebaseDatabase.getInstance().getReference().child("Teacher").child(t_id);
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
